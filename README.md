@@ -1,5 +1,7 @@
 # Massey und Colley: ein lineares System auf dem Spielplan – Streamlit-Demo
 
+**[→ Demo live ausprobieren](https://sebastianhanisch-massey-colley-demo.streamlit.app/)**
+
 Viertes Stück der **Ranking-Linie** (Konzepte-Demo), Nachfolger von `siegtabelle-demo` und `rangaggregation-demo`: Die Siegtabelle zählt jeden Sieg gleich,
 gleich gegen wen. Hier wird der Spielplan als **Graph** gelesen und die Wertung als Lösung eines **linearen Gleichungssystems** berechnet, das die Stärke der
 Gegner über die Kanten weitergibt: **Massey** (Kleinste Quadrate auf der Punktedifferenz) und **Colley** (geglättete Siegquote mit Gegnerstärke). Das Vehikel
@@ -126,4 +128,4 @@ Gebaut mit Streamlit, Plotly, numpy, pandas und fpdf2.
 
 ---
 
-Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zu den Demos: [Interaktive Demos](https://sebastianhanisch.net/demos.html).
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Ranking: von der Siegtabelle bis Learning to Rank](https://sebastianhanisch.net/konzepte-ranking.html).
