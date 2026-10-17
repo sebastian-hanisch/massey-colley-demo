@@ -9,8 +9,8 @@ ist das neutrale, simulierte Turnier der Wurzel (Generator Version 1, wortgleich
 
 ## Kernfrage
 
-Was ändert ein lineares System gegenüber der Siegtabelle, und wo ändert es **nichts**? Ein System auf dem Spielgraphen behebt die ungleichen Gegner; wo der
-Plan vollständig und ausgeglichen ist, gibt es dieselbe Ordnung wie die Tabelle; Massey kippt bei Kantersiegen; und das Residuum sieht Zyklen nur, wenn sie
+Was ändert ein lineares System gegenüber der Siegtabelle, und wo ändert es **nichts**? Ein System auf dem Spielgraphen mildert den Fehler durch ungleiche Gegner (behebt ihn aber nicht); wo der
+Plan vollständig und ausgeglichen ist, gibt es ohne Kantersiege dieselbe Ordnung wie die Tabelle; Massey kippt bei Kantersiegen; und das Residuum sieht Zyklen nur, wenn sie
 sich aufheben.
 
 ## Modell
@@ -43,11 +43,11 @@ Alle Zahlen: 300 feste Turniere, 12 Teilnehmer, wenn nicht anders genannt.
 | Zwei Staffeln ohne Kreuzpartie | Alle Verfahren ordnen die Staffeln wie einen Münzwurf (50 % der Paare falsch); der Plan zerfällt in 100 % der Turniere in zwei Teile, die Matrix ist singulär. | `test_without_crossing_games_all_methods_are_a_coin_flip_and_the_plan_falls_apart` |
 | **Eine** Kreuzpartie je Starkem | Falsch geordnete Paare: Siegtabelle **37 %**, Massey **15,5 %**, Colley **24 %**. Mit 2 Kreuzpartien 27 / 12 / 16 %, mit 3 Kreuzpartien 18 / 9,5 / 11 %. | `test_one_crossing_game_per_strong_player_halves_the_error_for_massey` |
 | Alle Kreuzpartien (vollständiger Plan) | Alle vier Verfahren gleich, 6 % falsch: kein Gewinn. | `test_with_all_crossing_games_the_plan_is_complete_and_all_methods_agree` |
-| Zufällige Lücken (p = 0,5, 1 Partie) | τ gegen die Stärke: Siegtabelle 0,50, Siegquote 0,58, Massey 0,585, Colley 0,59. **Gegenüber den Siegen ein Gewinn, gegenüber der Siegquote kaum.** Bei p = 0,33 zerfällt der Plan in 16 %, bei p = 0,2 in 71 % der Turniere. | `test_with_random_gaps_massey_and_colley_beat_wins_but_hardly_the_win_share` |
+| Zufällige Lücken (p = 0,5, 1 Partie) | τ gegen die Stärke: Siegtabelle 0,49, Siegquote 0,58, Massey 0,585, Colley 0,59. **Gegenüber den Siegen ein Gewinn (etwa +0,07 bis +0,10), gegenüber der Siegquote höchstens etwa +0,01.** Bei p = 0,33 zerfällt der Plan in rund 14 bis 16 %, bei p = 0,2 in rund 68 bis 71 % der Turniere (Stichprobe: 16 % und 71 %; die Rechnung für zufällige Lücken bei 12 Teilnehmern ergibt 14,0 % und 67,7 %). | `test_with_random_gaps_massey_and_colley_beat_wins_but_hardly_the_win_share` |
 | Vollständig und ausgeglichen (8 Teilnehmer) | Die Ordnung von Massey und Colley ist in **allen** gleichstandsfreien Turnieren die der Siegtabelle (11 von 11, 86 von 86, 188 von 188 bei 2, 4, 10 Partien je Paar); τ gleich (0,67, 0,78, 0,88). | `test_complete_plan_no_gain_and_identical_order` |
-| Kantersiege (4 Partien je Paar, Höhe 10) | Siegtabelle und Colley τ = 0,868 unabhängig von q. **Massey 0,868 bei q = 0, 0,724 bei q = 0,1**, 0,737 (0,2), 0,767 (0,3), 0,809 (0,5): unter der Tabelle. | `test_massey_falls_below_the_win_table_with_blowouts_colley_does_not` |
+| Kantersiege (4 Partien je Paar, Höhe 10, Stresstest) | Siegtabelle und Colley τ = 0,868 unabhängig von q. **Massey 0,868 bei q = 0, 0,724 bei q = 0,1**, 0,737 (0,2), 0,767 (0,3), 0,809 (0,5): unter der Tabelle. Das ist der ungünstigste Fall (Höhe 10, unabhängig von der Stärke); bei Höhe 2 liegt Massey bei q = 0,1 kaum darunter (0,865), bei Höhe 5 bei 0,804. | `test_massey_falls_below_the_win_table_with_blowouts_colley_does_not` |
 | Residuum bei ausgewogenen Zyklen (20 Partien je Paar) | 0,10 (c = 0) → 0,33 (c = 0,2) → **0,66** (c = 0,4); τ gegen die Stärke bleibt über 0,95. | `test_the_residual_sees_balanced_cycles` |
-| Residuum bei gekontertem Stärkstem | **0,10 bis 0,12**, obwohl τ gegen die Stärke auf 0,73 (c = 0,2) und 0,515 (c = 0,4) einbricht und der Stärkste im Mittel auf Platz 5,8 steht: Der Konter verschwindet im transitiven Anteil. | `test_the_residual_does_not_see_a_countered_strongest` |
+| Residuum bei gekontertem Stärkstem | **0,10 bis 0,12**, obwohl τ gegen die Stärke auf 0,73 (c = 0,2) und 0,515 (c = 0,4) einbricht und der Stärkste im Mittel auf Platz 5,8 steht: Der Konter geht vermutlich im transitiven Anteil auf (Erklärung, nicht eigens gemessen). | `test_the_residual_does_not_see_a_countered_strongest` |
 
 ## Befunde und Korrekturen gegenüber dem Plan
 
@@ -71,7 +71,7 @@ Alle Zahlen: 300 feste Turniere, 12 Teilnehmer, wenn nicht anders genannt.
 ## Ehrliche Grenzen
 
 - **Der Gewinn hängt am Plan:** nur bei ungleichen Gegnern oder Lücken; im ausgeglichenen vollständigen Plan keiner.
-- **Kantersiege sind ein Stresstest** (unabhängig von der Stärke); in echten Ligen steigt die Punktedifferenz mit dem Stärkeabstand und hilft Massey eher.
+- **Kantersiege sind ein Stresstest** (unabhängig von der Stärke); in echten Ligen steigt die Punktedifferenz vermutlich mit dem Stärkeabstand und belastet Massey dann weniger (nicht gemessen in dieser Demo; in einem einfachen Gegenmodell liegt Massey weiter unter der Tabelle, aber weniger weit als bei unabhängigen Kantersiegen).
 - **Das Residuum sieht keinen gekonterten Stärksten**, weil der Konter im transitiven Anteil aufgeht.
 - **Zerfallender Plan:** keine Reihenfolge über die Teile hinweg belegt; die Verfahren raten, die Matrix verrät es.
 - **Alles simuliert**, ein Generator (Version 1), n ≤ 16; die Stärke ist eine Konstruktion, keine Messung.
@@ -90,7 +90,7 @@ Alle Zahlen: 300 feste Turniere, 12 Teilnehmer, wenn nicht anders genannt.
 
 ## Tests
 
-74 Tests, rund 30 Sekunden: Einheiten gegen die von Hand gerechneten Mini-Instanzen (`test_linear.py`, `test_margins.py`), Generator (`test_generator.py`,
+90 Tests, rund 100 Sekunden: Einheiten gegen die von Hand gerechneten Mini-Instanzen (`test_linear.py`, `test_margins.py`), Generator (`test_generator.py`,
 wortgleich mit der Wurzel), **Orakel** (`test_oracle_massey_colley.py`: Massey gegen die Normalgleichungen aus der Partienliste und `pinv`, Colley gegen die
 geschlossene Formel, Rang gegen die Komponenten per `networkx`, Positiv-Definitheit, Skalierung, Residuum bei exakt transitiven Daten), Presets, ausblendbare
 Regler (`test_hidden_widget_state.py`), Analyse und Verdikte (`test_evaluation.py`), alle Zahlen dieses README (`test_claims.py`) und AppTest-Rauchtests.

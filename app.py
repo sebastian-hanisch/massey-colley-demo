@@ -69,7 +69,7 @@ st.markdown(
 Die Siegtabelle zählt jeden Sieg gleich, gleich gegen wen. Diese Demo ist das **vierte Stück der Ranking-Linie** und zeigt, was ein **lineares
 Gleichungssystem auf dem Spielgraphen** ändert: **Massey** legt die Kleinsten Quadrate auf die Punktedifferenzen, **Colley** glättet die Siegquote
 und rechnet die Stärke der Gegner ein. Beide werden **in einem Schritt gelöst**, ohne Iteration. Das Ergebnis ist ungleichmäßig: Bei ungleichen Gegnern
-helfen sie deutlich, bei vollständigem, ausgeglichenem Plan ändern sie **nichts**, und Massey **kippt bei Kantersiegen**.
+helfen sie deutlich, bei vollständigem, ausgeglichenem Plan ändern sie ohne Kantersiege **nichts**, und Massey **kippt bei Kantersiegen**.
 
 Weiter unten: vier **🔬 Experimente** mit Verdikt, **🚧 Wo die Annahmen enden** und der Expander **📐 Mathematische Formulierung**.
 """
@@ -125,7 +125,7 @@ with st.sidebar:
     if c > 0:
         seed_widget("stil_select")
         stil = st.selectbox("Stilverteilung", list(C.STIL_LABELS), format_func=C.STIL_LABELS.get, key="stil_select",
-                            help="Wie die drei Spielstile verteilt sind. Der Stärkste hat immer Stil 0.")
+                            help="Wie die drei Spielstile verteilt sind. Bei Konter und Beute hat der Stärkste Stil 0; bei „ausgewogen“ sind die Stile reihum vergeben.")
         remember("stil_select", stil)
     st.markdown("**Kantersiege (Stresstest)**")
     q = st.slider("Anteil der Siege, die Kantersiege sind", *bounds("q_slider"), step=C.Q_STEP, key="q_slider",
@@ -244,8 +244,8 @@ st.markdown(
 | Annahme | Was passiert, wenn sie verletzt ist | Wer setzt an |
 |---|---|---|
 | **Der Plan ist zusammenhängend** | Zerfällt er, ist die Matrix singulär und keine Reihenfolge über die Teile hinweg belegt; beide Verfahren raten (Experiment 1). | – |
-| **Punktedifferenzen sind zuverlässig** | Massey folgt jedem Ausreißer; schon 10 % Kantersiege setzen es unter die Siegtabelle (Experiment 3). | Bradley-Terry |
-| **Der Plan ist ungleich** | Im vollständigen, ausgeglichenen Plan ändern beide Verfahren die Ordnung der Tabelle nicht (Experiment 2). | – |
+| **Punktedifferenzen sind zuverlässig** | Massey folgt den Ausreißern; schon 10 % Kantersiege der Höhe 10 setzen es unter die Siegtabelle (Experiment 3). | Bradley-Terry |
+| **Der Plan ist ungleich** | Im vollständigen, ausgeglichenen Plan ändern beide Verfahren ohne Kantersiege die Ordnung der Tabelle nicht (Experiment 2). | – |
 | **Die Leistung hängt nur von der Stärke ab** | Bei Konter-Stilen wird der Stärkste fehlgeordnet, und das Residuum merkt es nicht (Experiment 4). | Nicht-Transitivität |
 | **Ein Spiel ist Sieg oder Niederlage mit Punkten** | Tore, Remis und Heimvorteil haben ein eigenes Modell; hier steckt nur Sieg oder Niederlage hinter den Punkten. | Tore, Remis, Heimvorteil |
 | **Alles ist simuliert** | Die Stärke ist eine Konstruktion des Generators; die Punktedifferenz entsteht aus den Ausgängen. | – |
@@ -266,7 +266,7 @@ $n - c$ ($c$ = Zahl der Teile des Plans); die Lösung mit kleinster Norm (Pseudo
 **Colley.** $C r = b$ mit $C = 2I + M$ und $b_i = 1 + (w_i - l_i)/2$; $C$ ist positiv definit, die Summe der Wertungen ist $n/2$. Im vollständigen,
 ausgeglichenen Plan mit $k$ Partien je Paar gilt $r_i = (1 + w_i + k/2)/(2 + k n)$: streng monoton in den Siegen.
 
-**Vollständig und ausgeglichen.** $M = nI - J$, also $r_i = p_i / n$: dieselbe Ordnung wie die Siegtabelle, wenn jeder Sieg einen Punkt Vorsprung hat.
+**Vollständig und ausgeglichen.** $M = k(nI - J)$ bei $k$ Partien je Paar, also $r_i = p_i / (k n)$: dieselbe Ordnung wie die Siegtabelle, wenn jeder Sieg einen Punkt Vorsprung hat.
 
 **Residuum.** $\rho = \sum_{i<j}(y_{ij} - (r_i - r_j))^2 / \sum_{i<j} y_{ij}^2$ mit der mittleren Punktedifferenz $y_{ij}$ je Partie über die gespielten Paare.
 

@@ -158,8 +158,8 @@ def verdict_analysis(a: Analysis) -> tuple[str, str]:
     n = s.n
     if a.components > 1:
         return "warning", (f"Der Spielplan zerfällt in **{a.components} Teile**, die nie gegeneinander gespielt haben: Die Laplace-Matrix hat den Rang "
-                           f"{n - a.rank_deficit} statt {n}, das Massey-System ist singulär und hat keine eindeutige Lösung. Alle Verfahren ordnen die Teile "
-                           "untereinander wie einen Münzwurf, ohne es zu merken.")
+                           f"{n - a.rank_deficit} statt {n}, das Massey-System ist singulär und hat keine eindeutige Lösung. Die Reihenfolge über die Teile "
+                           "hinweg ist nicht belegt (bei zwei Staffeln ohne Kreuzpartie wie ein Münzwurf).")
     if s.plan == "staffeln":
         c = a.crossing
         return "success" if c["Massey"] < c["Siege"] else "info", (
@@ -206,4 +206,4 @@ def verdict_residual(rows) -> tuple[str, str]:
     return "warning", (f"Bei ausgewogenen Stilen steigt das Residuum mit der Zyklenstärke von {de(bal0['residual'], 2)} auf {de(bal['residual'], 2)}: Das "
                        f"lineare Modell erklärt die Zyklen nicht. Ist der Stärkste aber gekontert, bleibt es bei {de(cnt['residual'], 2)}, obwohl τ gegen die "
                        f"Stärke auf {de(cnt['tau_massey'], 2)} einbricht und der Stärkste im Mittel auf Platz {de(cnt['best_place'], 1)} steht: Der Konter "
-                       "verschwindet im transitiven Anteil.")
+                       "geht vermutlich im transitiven Anteil auf (nicht eigens gemessen).")
