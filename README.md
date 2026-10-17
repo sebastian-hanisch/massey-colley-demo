@@ -78,8 +78,9 @@ Alle Zahlen: 300 feste Turniere, 12 Teilnehmer, wenn nicht anders genannt.
 
 ## Quellen
 
-- Massey, K. (1997): Statistical models applied to the rating of sports teams. Abschlussarbeit, Bluefield College (nach Sekundärzitaten; das Original wurde
-  nicht eingesehen).
+- Massey, K. (1997): Statistical models applied to the rating of sports teams. Abschlussarbeit (Honors Project), Bluefield College. Eingesehen 2026-10-17
+  (Volltext, masseyratings.com/theory/massey97.pdf): Kleinste Quadrate auf den Punktedifferenzen, Normalgleichungen mit Diagonale = Partien und
+  Nebendiagonale = minus Partien zwischen den beiden (S. 38), Ersatz einer Gleichung durch Σ r = 0 (S. 35), Beispiel 4.2 (S. 36–37).
 - Colley, W. N. (2002): Colley's bias free college football ranking method: The Colley matrix explained. Online-Dokument, colleyrankings.com.
 - Langville, A. N., Meyer, C. D. (2012): Who's #1? The Science of Rating and Ranking. Princeton University Press (Massey: Kapitel 2, Colley: Kapitel 3,
   Zusammenhang beider: S. 24).

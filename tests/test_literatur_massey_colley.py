@@ -20,7 +20,11 @@ Code der Demo.
    UVA 0,357; VT 0,643). Paketversion in der Vignette nicht genannt. Die Torvektor-Summen je Mannschaft (-124, 91, -40, -17, 90) rechnet der Test
    aus den Partien nach.
 
-Nicht eingesehen (kein Test, siehe Bericht "offen"): Massey (1997) Abschlussarbeit; Langville/Meyer (2012) selbst (nur über 3. gestützt).
+4. Massey, K. (1997): Statistical Models Applied to the Rating of Sports Teams. Honors Project, Bluefield College, https://masseyratings.com/theory/
+   massey97.pdf (Volltext gelesen, Einsicht 2026-10-17), Kapitel 4: Beispiel 4.2 (S. 36-37), Ersatz einer Normalgleichung durch die Summenbedingung
+   (S. 35), Aufbau der Normalgleichungen ohne X (S. 38). Der Test am Ende dieser Datei.
+
+Nicht eingesehen (kein Test, siehe Bericht "offen"): Langville/Meyer (2012) selbst (nur über 3. gestützt).
 """
 
 import numpy as np
@@ -110,3 +114,25 @@ def test_massey_and_colley_on_ncaa2005_match_the_comperank_documentation():
     # gedruckte Plätze: Massey Miami, VT, UVA, UNC, Duke; Colley Miami, VT, UNC, UVA, Duke
     assert list(np.argsort(-massey)) == [1, 4, 3, 2, 0]
     assert list(np.argsort(-colley)) == [1, 4, 2, 3, 0]
+
+
+# --- Massey 1997, Beispiel 4.2 ---------------------------------------------------------------------------------------------------------
+
+def test_massey_thesis_example_4_2_gives_the_printed_ratings():
+    """Massey (1997), Kapitel 4 (S. 36-37 der Arbeit), Beispiel 4.2, Einsicht 2026-10-17 (PDF masseyratings.com/theory/massey97.pdf, Volltext gelesen):
+    (1) Beast Squares, (2) Gaussian Eliminators, (3) Likelihood Loggers, (4) Linear Aggressors; Ergebnisse: 1 schlägt 2 mit 10-6, 3 und 4
+    remis 4-4, 4 schlägt 2 mit 9-2, 1 schlägt 4 mit 8-6, 2 schlägt 3 mit 3-2. Gedruckte Lösung r = (2,375; -2,5; -1,125; 1,25), erwartete
+    Differenz Beast Squares gegen Likelihood Loggers 2,375 - (-1,125) = 3,5. Die Matrix ergibt sich nach der Regel auf S. 38: Diagonale = Zahl der
+    Partien, außerhalb der Diagonale = minus Zahl der Partien zwischen beiden; rechte Seite = Summe der Punktedifferenzen je Mannschaft."""
+    G, D, _ = _tables(4, [(0, 1, 10, 6), (2, 3, 4, 4), (3, 1, 9, 2), (0, 3, 8, 6), (1, 2, 3, 2)])
+    M, p = L.massey_system(G, D)
+    assert M.tolist() == [[2, -1, 0, -1], [-1, 3, -1, -1], [0, -1, 2, -1], [-1, -1, -1, 3]]
+    assert p.tolist() == [6, -10, -1, 5]                                   # Beast +4 +2, Gaussian -4 -7 +1, Likelihood 0 -1, Aggressors 0 +7 -2
+    r = L.massey_rating(G, D)
+    assert r == pytest.approx([2.375, -2.5, -1.125, 1.25], abs=1e-12)
+    assert r.sum() == pytest.approx(0.0, abs=1e-12)
+    assert list(np.argsort(-r)) == [0, 3, 2, 1]                            # Beast Squares, Linear Aggressors, Likelihood Loggers, Gaussian Eliminators
+    assert r[0] - r[2] == pytest.approx(3.5, abs=1e-12)
+    # Ersetzen der letzten Normalgleichung durch r1 + ... + rn = 0 (S. 35), wie im Beispiel, gibt dieselbe Lösung
+    r2, _ = L.massey_row_replaced(G, D)
+    assert r2 == pytest.approx(r, abs=1e-10)
